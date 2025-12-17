@@ -1,26 +1,26 @@
 body {
-    margin: 0;
-    min-height: 100vh;
-    min-width: 100vw;
-  }
-  
-  video {
-    display: none;
-  }
-  
-  canvas, #message {
-    min-height: 100%;
-    min-width: 100%;
-    transform: translate( -50%, -50% );
-    position: absolute;
-    top: 50%;
-    left: 50%;
-  }
-  
-  #message {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-family: monospace;
-  }
+  margin: 0;
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+video {
+  display: none;
+}
+
+canvas, #message {
+  min-height: 100%;
+  min-width: 100%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+#message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: monospace;
+}

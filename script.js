@@ -1,9 +1,13 @@
-if (window.FaceDetector) document.getElementById("message").remove();
+if (!window.FaceDetector) {
+    document.getElementById("message").innerHTML = '<h1>FaceDetector non disponible</h1><p>Active le flag Chrome :<br><b>chrome://flags/#enable-experimental-web-platform-features</b></p>';
+} else {
+    document.getElementById("message").remove();
+}
 
 const video = document.getElementById("video");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-const faceDetector = new FaceDetector({ fastMode: true, maxDetectedFaces: 2 });
+const faceDetector = window.FaceDetector ? new FaceDetector({ fastMode: true, maxDetectedFaces: 2 }) : null;
 
 async function startCamera() {
     try {
@@ -22,11 +26,13 @@ async function startCamera() {
 
 async function update() {
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    try {
-        const faces = await faceDetector.detect(canvas);
-        markFaces(faces);
-    } catch (error) {
-        console.error("Erreur de détection :", error);
+    if (faceDetector) {
+        try {
+            const faces = await faceDetector.detect(canvas);
+            markFaces(faces);
+        } catch (error) {
+            console.error("Erreur de détection :", error);
+        }
     }
     requestAnimationFrame(update);
 }
@@ -37,10 +43,9 @@ function markFaces(faces) {
 
     faces.forEach(face => {
         const { x, y, width, height } = face.boundingBox;
-        ctx.beginPath();
-        ctx.ellipse(x + width / 2, y + height / 2, width / 2, height / 2, 0, 0, 2 * Math.PI);
-        ctx.stroke();
+        ctx.strokeRect(x, y, width, height);
     });
 }
 
 startCamera();
+
